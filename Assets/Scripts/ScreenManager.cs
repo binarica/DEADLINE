@@ -4,23 +4,35 @@ using System.Collections;
 
 public class ScreenManager : MonoBehaviour 
 {
-	public void gotoMenu()
+    public static int score;
+
+    public void Start()
+    {
+        score = GameStats.Instance.score;
+    }
+
+    public void GoToMenu()
 	{
         SceneManager.LoadScene(0);
 	}
 
-	public void gotoHowToPlay()
+	public void GoToHowToPlay()
 	{
         SceneManager.LoadScene(1);
 	}
 
-	public void gotoCredits()
+	public void GoToCredits()
 	{
         SceneManager.LoadScene(2);
 	}
 
-    public void gotoStartGame()
+    public void GoToStartGame()
     {
         SceneManager.LoadScene(3);
+    }
+
+    public void QuitGame()
+    {
+        Application.Quit();
     }
 }

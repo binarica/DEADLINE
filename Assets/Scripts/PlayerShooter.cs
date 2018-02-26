@@ -9,14 +9,14 @@ public class PlayerShooter : MonoBehaviour
     public int currentAmmo = 5;
     public int maxAmmo = 30;
 
-    float timer;
-    Ray shootRay;
-    RaycastHit shootHit;
-    int shootableMask;
-    ParticleSystem gunParticles;
-    LineRenderer gunLine;
-    AudioSource gunAudio;
-    Light gunLight;
+    private float timer;
+    private Ray shootRay;
+    private RaycastHit shootHit;
+    private int shootableMask;
+    private ParticleSystem gunParticles;
+    private LineRenderer gunLine;
+    private AudioSource audioSource;
+    private Light gunLight;
     float effectsDisplayTime = 0.2f;
 
     public GameObject grenadeBomb;
@@ -24,10 +24,12 @@ public class PlayerShooter : MonoBehaviour
     public float grenadeTime;
     public float grenadeDamage;
     public float grenadeDamageRadius;
-    
+
     public float coldDownTime;
     public float accuracy;
-    
+
+    public AudioClip shootSound;
+    public AudioClip clickSound;
 
     protected bool isGrenadeReady = false;
 
@@ -36,8 +38,9 @@ public class PlayerShooter : MonoBehaviour
         shootableMask = LayerMask.GetMask ("Enemy");
         gunParticles = GetComponent<ParticleSystem> ();
         gunLine = GetComponent <LineRenderer> ();
-        gunAudio = GetComponent<AudioSource> ();
         gunLight = GetComponent<Light> ();
+
+        audioSource = GetComponent<AudioSource>();
     }
 
 
@@ -48,14 +51,12 @@ public class PlayerShooter : MonoBehaviour
         if (timer >= timeBetweenBullets * effectsDisplayTime)
             DisableEffects();
 
-        if (currentAmmo < 1)
-            return;
-
-        if (Input.GetButton ("Fire1") && timer >= timeBetweenBullets && Time.timeScale != 0)
-            Shoot ();
-
-        if (Input.GetButton ("Fire2") && isGrenadeReady == true)
-            throwGrenade ();
+        if (Input.GetButton("Fire1") && timer >= timeBetweenBullets && Time.timeScale != 0)
+                Shoot();
+        /*
+        if (Input.GetButton("Fire2") && isGrenadeReady == true)
+            throwGrenade();
+        */
     }
 
 
@@ -70,33 +71,42 @@ public class PlayerShooter : MonoBehaviour
     {
         timer = 0f;
 
-        gunAudio.Play ();
+        if (currentAmmo > 0)
+        {         
+            audioSource.clip = shootSound;
+            audioSource.Play();
 
-        gunLight.enabled = true;
+            gunLight.enabled = true;
 
-        gunParticles.Stop ();
-        gunParticles.Play ();
+            gunParticles.Stop ();
+            gunParticles.Play ();
 
-        gunLine.enabled = true;
-        gunLine.SetPosition (0, transform.position);
+            gunLine.enabled = true;
+            gunLine.SetPosition (0, transform.position);
 
-        shootRay.origin = transform.position;
-        shootRay.direction = transform.forward;
+            shootRay.origin = transform.position;
+            shootRay.direction = transform.forward;
 
-        currentAmmo--;
+            currentAmmo--;
 
-        if (Physics.Raycast (shootRay, out shootHit, range, shootableMask))
-        {
-            EnemyHealth enemyHealth = shootHit.collider.GetComponent <EnemyHealth> ();
-            if(enemyHealth != null)
+            if (Physics.Raycast (shootRay, out shootHit, range, shootableMask))
             {
-                enemyHealth.TakeDamage (damagePerShot, shootHit.point);
+                EnemyHealth enemyHealth = shootHit.collider.GetComponent <EnemyHealth> ();
+                if(enemyHealth != null)
+                {
+                    enemyHealth.TakeDamage (damagePerShot, shootHit.point);
+                }
+                gunLine.SetPosition (1, shootHit.point);
             }
-            gunLine.SetPosition (1, shootHit.point);
+            else
+            {
+                gunLine.SetPosition (1, shootRay.origin + shootRay.direction * range);
+            }       
         }
         else
         {
-            gunLine.SetPosition (1, shootRay.origin + shootRay.direction * range);
+            audioSource.clip = clickSound;
+            audioSource.Play();
         }
     }
 

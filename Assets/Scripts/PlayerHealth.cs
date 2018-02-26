@@ -89,5 +89,6 @@ public class PlayerHealth : MonoBehaviour
     public void RestartGame ()
     {
         SceneManager.LoadScene(4);
+        ScreenManager.score += ScoreManager.score;
     }
 }
