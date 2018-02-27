@@ -13,22 +13,22 @@ public class ScreenManager : MonoBehaviour
 
     public void GoToMenu()
 	{
-        SceneManager.LoadScene(0);
+        SceneManager.LoadScene("Menu");
 	}
 
 	public void GoToHowToPlay()
 	{
-        SceneManager.LoadScene(1);
+        SceneManager.LoadScene("HowToPlay");
 	}
 
 	public void GoToCredits()
 	{
-        SceneManager.LoadScene(2);
+        SceneManager.LoadScene("Credits");
 	}
 
     public void GoToStartGame()
     {
-        SceneManager.LoadScene(3);
+        SceneManager.LoadScene("Level3");
     }
 
     public void QuitGame()

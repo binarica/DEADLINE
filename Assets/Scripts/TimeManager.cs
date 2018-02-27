@@ -11,7 +11,7 @@ public class TimeManager : MonoBehaviour
     void Awake()
     {
         text = GetComponent<Text>();
-        timeLeft = 150;
+        timeLeft = 200;
     }
 
     void Update()
@@ -28,7 +28,7 @@ public class TimeManager : MonoBehaviour
 
     public void GameOver()
     {
-        SceneManager.LoadScene(4);
+        SceneManager.LoadScene("GameOver");
         ScreenManager.score += ScoreManager.score;
     }
 }

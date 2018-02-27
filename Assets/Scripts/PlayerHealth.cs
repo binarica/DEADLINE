@@ -4,7 +4,6 @@ using System.Collections;
 using UnityEngine.SceneManagement;
 using UnityStandardAssets.Characters.FirstPerson;
 
-
 public class PlayerHealth : MonoBehaviour
 {
     public int startingHealth = 100;
@@ -36,6 +35,7 @@ public class PlayerHealth : MonoBehaviour
 
     void Update ()
     {
+ 
         if(damaged)
         {
             damageImage.color = flashColour;
@@ -44,11 +44,13 @@ public class PlayerHealth : MonoBehaviour
         {
             damageImage.color = Color.Lerp (damageImage.color, Color.clear, flashSpeed * Time.deltaTime);
         }
+
+
         damaged = false;
 
         if (isDead)
         {
-            transform.Translate(-Vector3.up * fallSpeed * Time.deltaTime);
+            //transform.Translate(-Vector3.up * fallSpeed * Time.deltaTime);
         }
     }
 
@@ -88,7 +90,9 @@ public class PlayerHealth : MonoBehaviour
 
     public void RestartGame ()
     {
-        SceneManager.LoadScene(4);
+        Cursor.visible = true;
+
+        SceneManager.LoadScene("GameOver");
         ScreenManager.score += ScoreManager.score;
     }
 }

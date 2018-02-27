@@ -26,12 +26,6 @@ public class EnemyHealth : MonoBehaviour
         currentHealth = startingHealth;
     }
 
-
-    void Update ()
-    {
-
-    }
-
     public void TakeDamage (int amount, Vector3 hitPoint)
     {
         if(isDead)
@@ -43,15 +37,13 @@ public class EnemyHealth : MonoBehaviour
         //hitParticles.transform.position = hitPoint;
         hitParticles.Play();
 
-
         if(currentHealth <= 0)
         {
-            Death ();
+            Kill ();
         }
     }
 
-
-    void Death ()
+    void Kill ()
     {
         isDead = true;
 
@@ -59,6 +51,7 @@ public class EnemyHealth : MonoBehaviour
         AudioSource.PlayClipAtPoint(deathClip, transform.position);
 
         ScoreManager.score += scoreValue;
+        EnemyCounter.totalEnemies -= 1;
 
         //capsuleCollider.isTrigger = true;
         gameObject.SetActive(false);

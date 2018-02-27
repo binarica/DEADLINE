@@ -52,10 +52,11 @@ public class PlayerShooter : MonoBehaviour
             DisableEffects();
 
         if (Input.GetButton("Fire1") && timer >= timeBetweenBullets && Time.timeScale != 0)
-                Shoot();
+            Shoot();
+
         /*
         if (Input.GetButton("Fire2") && isGrenadeReady == true)
-            throwGrenade();
+            ThrowGrenade();
         */
     }
 
@@ -110,7 +111,8 @@ public class PlayerShooter : MonoBehaviour
         }
     }
 
-    void throwGrenade()
+    /*
+    void ThrowGrenade()
     {
         GameObject go = (GameObject)GameObject.Instantiate(grenadeBomb, shootRay.origin + transform.forward * 1.5f, Quaternion.LookRotation(shootRay.direction));
         go.GetComponent<Rigidbody>().AddForce(shootRay.direction * grenadeImpulse);
@@ -120,11 +122,12 @@ public class PlayerShooter : MonoBehaviour
         gb.damageDistance = grenadeDamageRadius;
         gb.explosionTime = grenadeTime;
 
-        Invoke("Ready", coldDownTime);
+        Invoke("GrenadeReady", coldDownTime);
     }
 
-    public void Ready()
+    public void GrenadeReady()
     {
         isGrenadeReady = true;
     }
+    */
 }
